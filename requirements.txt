@@ -1,0 +1,13 @@
+agno
+beautifulsoup4
+lxml
+exa_py
+openai
+pypdf
+qdrant-client
+langchain
+langchain-qdrant
+langchain-community
+langchain-text-splitters
+streamlit
+ollama
