@@ -8,13 +8,20 @@ echo ========================================
 echo.
 
 echo Checking Ollama...
-tasklist /fi "ImageName eq ollama.exe" 2^>nul ^| find /i "ollama.exe" >nul
+ollama list >nul 2>&1
 if errorlevel 1 (
-    echo Starting Ollama in background...
-    start /b "" "%LOCALAPPDATA%\Programs\Ollama\ollama.exe"
-    timeout /t 8 /nobreak >nul
-) else (
-    echo Ollama is running
+    echo ERROR: Ollama is not running!
+    echo Please start Ollama from the Start Menu first, then run this again.
+    pause
+    exit /b 1
+)
+echo Ollama is running
+
+echo.
+echo Checking port 8501...
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":8501.*LISTENING" 2^>nul') do (
+    echo Stopping old Streamlit process...
+    taskkill /f /pid %%a >nul 2>&1
 )
 
 echo Starting Streamlit...
